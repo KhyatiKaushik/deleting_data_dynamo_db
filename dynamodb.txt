@@ -1,0 +1,66 @@
+import boto3
+from boto3.dynamodb.conditions import Key, Attr
+
+dynamodb = boto3.resource('dynamodb')
+# table = dynamodb.Table('bulk-load')
+
+table = boto3.resource('dynamodb').Table('bulk-load')
+
+# scan = table.scan(
+#     # IndexName='clientid-index',
+#     FilterExpression=Key('clientid').eq('2.16.840.1.113883.3.441.60145')
+# )
+# # # response = scan['Items']
+# print(scan)
+# # # print(response["PK"])
+# #
+
+response = table.query(
+    IndexName='clientid-index',
+    KeyConditionExpression=Key('clientid').eq('2.16.840.1.113883.3.441.60145')
+)
+
+print(response)
+
+
+# pk_response = []
+# sk_response = []
+# for item in scan['Items']:
+#     pk_response.append(item["PK"])
+#     sk_response.append(item["SK"])
+#
+# print('pk_response', pk_response)
+# print('sk_response', sk_response)
+#
+# with table.batch_writer() as batch:
+#     for i in range(0, len(pk_response)):
+#         print('------------------')
+#         print(i)
+#         batch.delete_item(Key={"PK": pk_response[i],
+#                                "SK": sk_response[i]
+#                                })
+
+# # data = {}
+# # for items in scan:
+# #     create_item = {}
+# #     PK = items.scan['PK']
+# #     SK = items.scan['SK']
+# #     create_item.update(['PK', 'SK'], [PK, SK])
+# #     data.update(create_item)
+# #
+# # print(create_item)
+#
+#
+# with table.batch_writer() as batch:
+#     for item in scan['Items']:
+#         print('------------------')
+#         print(item)
+#         count = 0
+#
+#
+#         batch.delete_item(Key={"PK": item["PK"],
+#                                "SK": item["SK"]
+#                                })
+#         count = count + 1
+# print(count)
+#
